@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 Route::get('/', function () {
     $posts = [];
@@ -18,12 +19,12 @@ Route::get('/', function () {
 
 
 // User Routes
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/logout', [UserController::class, 'logout']);
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register'])->middleware(RedirectIfAuthenticated::class);
+Route::post('/logout', [UserController::class, 'logout'])->middleware(AuthMiddleware::class);
+Route::post('/login', [UserController::class, 'login'])->middleware(RedirectIfAuthenticated::class);
 
-Route::get('/login', [UserController::class, 'showLoginPage']);
-Route::get('/register', [UserController::class, 'showRegisterPage']);
+Route::get('/login', [UserController::class, 'showLoginPage'])->middleware(RedirectIfAuthenticated::class);
+Route::get('/register', [UserController::class, 'showRegisterPage'])->middleware(RedirectIfAuthenticated::class);
 
 // Post Routes
 Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);

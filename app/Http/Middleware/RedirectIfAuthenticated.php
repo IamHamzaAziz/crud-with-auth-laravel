@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthMiddleware
+class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check()) {
+        if (auth()->check()) {
             return redirect('/');
         }
         return $next($request);
