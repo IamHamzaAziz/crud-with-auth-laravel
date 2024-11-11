@@ -17,18 +17,20 @@ Route::get('/', function () {
     return view('home', ['posts' => $posts]);
 });
 
+Route::middleware(RedirectIfAuthenticated::class)->group(function () {
+    Route::get('/login', [UserController::class, 'showLoginPage']);
+    Route::get('/register', [UserController::class, 'showRegisterPage']);
+    Route::post('/register', [UserController::class, 'register']);
+    Route::post('/login', [UserController::class, 'login']);
+});
 
-// User Routes
-Route::post('/register', [UserController::class, 'register'])->middleware(RedirectIfAuthenticated::class);
-Route::post('/logout', [UserController::class, 'logout'])->middleware(AuthMiddleware::class);
-Route::post('/login', [UserController::class, 'login'])->middleware(RedirectIfAuthenticated::class);
+Route::middleware(AuthMiddleware::class)->group(function () {
+    Route::post('/logout', [UserController::class, 'logout']);
 
-Route::get('/login', [UserController::class, 'showLoginPage'])->middleware(RedirectIfAuthenticated::class);
-Route::get('/register', [UserController::class, 'showRegisterPage'])->middleware(RedirectIfAuthenticated::class);
-
-// Post Routes
-Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);
-Route::post('/post', [PostController::class, 'store'])->middleware(AuthMiddleware::class);
-Route::get('/post/{post}', [PostController::class, 'edit'])->middleware(AuthMiddleware::class);
-Route::put('/post/{post}', [PostController::class, 'update'])->middleware(AuthMiddleware::class);
-Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(AuthMiddleware::class);
+    // Post Routes
+    Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);
+    Route::post('/post', [PostController::class, 'store'])->middleware(AuthMiddleware::class);
+    Route::get('/post/{post}', [PostController::class, 'edit'])->middleware(AuthMiddleware::class);
+    Route::put('/post/{post}', [PostController::class, 'update'])->middleware(AuthMiddleware::class);
+    Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(AuthMiddleware::class);
+});
