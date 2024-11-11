@@ -4,34 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crud App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body style="background-color: #f0f0f0; margin: 0; padding: 0;">
+<body class="bg-[#f0f0f0] m-0 p-0">
     {{-- @include('components.navbar') --}}
     <x-navbar />
 
     @auth
-        <h1 style="text-align: center;">Welcome {{ auth()->user()->name }}</h1>
+        <h1 class="text-center text-3xl font-bold my-6">Welcome {{ auth()->user()->name }}</h1>
 
         @if(count($posts) === 0)
-            <p style="text-align: center; color: #666; margin: 20px 0;">You have no posts yet. Create your first post!</p>
+            <p class="text-center text-gray-600 my-5">You have no posts yet. Create your first post!</p>
         @endif
 
         @foreach ($posts as $post)
-            <div style="width: 80%; display: block; margin: auto; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 10px;">
-                <h3>{{ $post->title }}</h3>
-                <p>{{ $post->body }}</p>
+            <div class="w-4/5 mx-auto p-4 rounded border border-gray-300 mb-4">
+                <h3 class="text-xl font-bold mb-2">{{ $post->title }}</h3>
+                <p class="mb-4">{{ $post->body }}</p>
 
-                <form action="/delete-post/{{ $post->id }}" method="POST">
+                <form action="/post/{{ $post->id }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" style="width: 100%; padding: 10px; border-radius: 5px; background-color: #8B0000; color: white; border: none; cursor: pointer; margin-bottom: 10px;">Delete Post</button>
+                    <button type="submit" class="w-full p-3 rounded bg-[#8B0000] text-white cursor-pointer mb-2">Delete Post</button>
                 </form>
 
-                <a href="/edit-post/{{ $post->id }}" style="width: 98%; display: block; padding: 10px; border-radius: 5px; background-color: #007bff; color: white; border: none; cursor: pointer; margin-bottom: 10px; text-align: center;">Edit Post</a>
+                <a href="/post/{{ $post->id }}" class="w-full block p-3 rounded bg-blue-500 text-white cursor-pointer mb-2 text-center">Edit Post</a>
             </div>
         @endforeach
     @else
-        <h1 style="text-align: center;">Please Login or Register to Create Posts</h1>
+        <h1 class="text-center text-3xl font-bold my-6">Please Login or Register to Create Posts</h1>
     @endauth
 </body>
 </html>
