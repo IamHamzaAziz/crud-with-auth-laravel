@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
-    public function createPost(Request $request)
+    public function store(Request $request)
     {
         try {  
             $incomingFields = $request->validate([
@@ -31,17 +32,17 @@ class PostController extends Controller
         return redirect('/');
     }
 
-    public function showEditScreen(Post $post)
+    public function edit(Post $post)
     {
         return view('edit_post', ['post' => $post]);
     }
 
-    public function showCreatePostScreen()
+    public function create()
     {
         return view('create_post');
     }
 
-    public function updatePost(Post $post, Request $request)
+    public function update(Post $post, Request $request)
     {
         if (auth()->user()->id !== $post['user_id']) {
             return redirect('/');
@@ -67,7 +68,7 @@ class PostController extends Controller
         return redirect('/');
     }
 
-    public function deletePost(Post $post)
+    public function delete(Post $post)
     {
         if (auth()->user()->id === $post['user_id']) {
             $post->delete();

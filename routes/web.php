@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -25,8 +26,8 @@ Route::get('/login', [UserController::class, 'showLoginPage']);
 Route::get('/register', [UserController::class, 'showRegisterPage']);
 
 // Post Routes
-Route::post('/create-post', [PostController::class, 'createPost']);
-Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
-Route::put('/edit-post/{post}', [PostController::class, 'updatePost']);
-Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
-Route::get('/create-post', [PostController::class, 'showCreatePostScreen']);
+Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);
+Route::post('/post', [PostController::class, 'store'])->middleware(AuthMiddleware::class);
+Route::get('/post/{post}', [PostController::class, 'edit'])->middleware(AuthMiddleware::class);
+Route::put('/post/{post}', [PostController::class, 'update'])->middleware(AuthMiddleware::class);
+Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(AuthMiddleware::class);
