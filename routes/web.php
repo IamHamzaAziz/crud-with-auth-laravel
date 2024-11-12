@@ -24,6 +24,7 @@ Route::get('/', function () {
 //     Route::post('/login', [UserController::class, 'login']);
 // });
 
+// Post routes
 Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);
     Route::post('/post', [PostController::class, 'store'])->middleware(AuthMiddleware::class);
@@ -32,4 +33,5 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(AuthMiddleware::class);
 });
 
+// Authentication routes
 require __DIR__.'/auth.php';
