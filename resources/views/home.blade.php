@@ -18,7 +18,7 @@
         @endif
 
         @foreach ($posts as $post)
-            <div class="w-4/5 mx-auto p-4 rounded border border-gray-300 mb-4">
+            {{-- <div class="w-4/5 mx-auto p-4 rounded border border-gray-300 mb-4">
                 <h3 class="text-xl font-bold mb-2">{{ $post->title }}</h3>
                 <p class="mb-4">{{ $post->body }}</p>
 
@@ -29,6 +29,11 @@
                 </form>
 
                 <a href="/post/{{ $post->id }}" class="w-full block p-3 rounded bg-blue-500 text-white cursor-pointer mb-2 text-center">Edit Post</a>
+            </div> --}}
+
+            <div class="w-4/5 mx-auto p-4 rounded border border-gray-300 mb-4">
+                <h3 class="text-xl font-bold mb-2">{{ $post->title }}</h3>
+                <p class="mb-4">{{ $post->content }}</p>
             </div>
         @endforeach
     @else

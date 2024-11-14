@@ -4,11 +4,14 @@
     <a href="/" class="text-white no-underline font-bold">Home</a>
     @auth
         <div class="flex gap-3 items-center">
-            <a href="/post" class="text-white no-underline font-bold">Create Post</a>
+            {{-- <a href="/post" class="text-white no-underline font-bold">Create Post</a> --}}
             <form action="/logout" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="text-white no-underline font-bold bg-[#8B0000] px-5 py-2.5 rounded border-none cursor-pointer">Logout</button>
             </form>
+            @if (auth()->user()->role_id == 1)
+                <a href="/admin" class="text-white no-underline font-bold bg-green-600 px-5 py-2.5 rounded border-none cursor-pointer">Admin</a>
+            @endif
         </div>
     @else
         <div class="flex gap-3 items-center">

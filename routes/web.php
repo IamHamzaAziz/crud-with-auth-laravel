@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\AdminPost;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\PostController;
@@ -8,12 +9,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 Route::get('/', function () {
-    $posts = [];
+    // $posts = [];
 
-    if (auth()->check()) {
-        // $posts = Post::where('user_id', auth()->id())->get();
-        $posts = auth()->user()->userPosts()->latest()->get();
-    }
+    // if (auth()->check()) {
+    //     // $posts = Post::where('user_id', auth()->id())->get();
+    //     $posts = auth()->user()->userPosts()->latest()->get();
+    // }
+
+    $posts = AdminPost::all();
     return view('home', ['posts' => $posts]);
 });
 
@@ -35,3 +38,4 @@ Route::middleware(AuthMiddleware::class)->group(function () {
 
 // Authentication routes
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
