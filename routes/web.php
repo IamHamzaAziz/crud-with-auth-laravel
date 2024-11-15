@@ -29,13 +29,12 @@ Route::get('/', function () {
 
 // Post routes
 Route::middleware(AuthMiddleware::class)->group(function () {
-    Route::get('/post', [PostController::class, 'create'])->middleware(AuthMiddleware::class);
-    Route::post('/post', [PostController::class, 'store'])->middleware(AuthMiddleware::class);
-    Route::get('/post/{post}', [PostController::class, 'edit'])->middleware(AuthMiddleware::class);
-    Route::put('/post/{post}', [PostController::class, 'update'])->middleware(AuthMiddleware::class);
-    Route::delete('/post/{post}', [PostController::class, 'delete'])->middleware(AuthMiddleware::class);
+    Route::get('/post', [PostController::class, 'create']);
+    Route::post('/post', [PostController::class, 'store']);
+    Route::get('/post/{post}', [PostController::class, 'edit']);
+    Route::put('/post/{post}', [PostController::class, 'update']);
+    Route::delete('/post/{post}', [PostController::class, 'delete']);
 });
 
-// Authentication routes
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
