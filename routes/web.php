@@ -18,7 +18,7 @@ Route::get('/', function () {
 
     $posts = AdminPost::all();
     return view('home', ['posts' => $posts]);
-});
+})->name('home');
 
 // Route::middleware(RedirectIfAuthenticated::class)->group(function () {
 //     Route::get('/login', [UserController::class, 'showLoginPage']);
@@ -29,11 +29,11 @@ Route::get('/', function () {
 
 // Post routes
 Route::middleware(AuthMiddleware::class)->group(function () {
-    Route::get('/post', [PostController::class, 'create']);
-    Route::post('/post', [PostController::class, 'store']);
-    Route::get('/post/{post}', [PostController::class, 'edit']);
-    Route::put('/post/{post}', [PostController::class, 'update']);
-    Route::delete('/post/{post}', [PostController::class, 'delete']);
+    Route::get('/post', [PostController::class, 'create'])->name('post_page');
+    Route::post('/post', [PostController::class, 'store'])->name('post');
+    Route::get('/post/{post}', [PostController::class, 'edit'])->name('edit_user_post');
+    Route::put('/post/{post}', [PostController::class, 'update'])->name('update_user_post');
+    Route::delete('/post/{post}', [PostController::class, 'delete'])->name('delete_user_post');
 });
 
 require __DIR__.'/auth.php';

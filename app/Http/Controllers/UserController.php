@@ -39,7 +39,7 @@ class UserController extends Controller
         // Log the newly created user in automatically
         auth()->login($user);
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function showLoginPage(){
@@ -52,7 +52,7 @@ class UserController extends Controller
 
     public function logout(){
         auth()->logout();
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function login(Request $request){
@@ -63,7 +63,7 @@ class UserController extends Controller
                 'password' => 'required'
             ]);
         } catch (ValidationException $e) {
-            return redirect('/login')->withErrors([
+            return redirect()->name('login_page')->withErrors([
                 'validation' => 'Please fill in all required fields'
             ]);
         }
@@ -72,11 +72,11 @@ class UserController extends Controller
         if(auth()->attempt(['name' => $incomingFields['name'], 'password' => $incomingFields['password']])){
             // Regenerate the session to prevent session fixation attacks
             $request->session()->regenerate();
-            return redirect('/');
+            return redirect()->name('home');
         }
 
         // Return error message if authentication fails
-        return redirect('/login')->withErrors([
+        return redirect()->name('login_page')->withErrors([
             'auth' => 'Invalid login credentials'
         ]);
     }

@@ -26,15 +26,12 @@ class AdminController extends Controller
                 'content' => 'required',
             ]);
 
-            $incomingFields['title'] = strip_tags($incomingFields['title']);
-            $incomingFields['content'] = strip_tags($incomingFields['content']);
-
             AdminPost::create($incomingFields);
 
-            return redirect('/admin');
+            return redirect()->route('view_posts');
         } catch (\Throwable $th) {
             dd($th);
-            return redirect('/admin/create-post')->with('error', 'Something went wrong');
+            return redirect()->route('create_post_page')->with('error', 'Something went wrong');
         }
     }
 
@@ -58,13 +55,10 @@ class AdminController extends Controller
                 'content' => 'required',
             ]);
 
-            $incomingFields['title'] = strip_tags($incomingFields['title']);
-            $incomingFields['content'] = strip_tags($incomingFields['content']);
-
             $post = AdminPost::find($id);
             $post->update($incomingFields);
 
-            return redirect('/admin/view-posts');
+            return redirect()->route('view_posts');
         } catch (\Throwable $th) {
             dd($th);
             return redirect('/admin/edit-post/' . $id)->with('error', 'Something went wrong');
@@ -75,6 +69,6 @@ class AdminController extends Controller
     {
         $post = AdminPost::find($id);
         $post->delete();
-        return redirect('/admin/view-posts');
+        return redirect()->route('view_posts');
     }
 }

@@ -5,10 +5,10 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\UserController;
 
 Route::middleware(RedirectIfAuthenticated::class)->group(function () {
-    Route::get('/login', [UserController::class, 'showLoginPage']);
-    Route::get('/register', [UserController::class, 'showRegisterPage']);
-    Route::post('/register', [UserController::class, 'register']);
-    Route::post('/login', [UserController::class, 'login']);
+    Route::get('/login', [UserController::class, 'showLoginPage'])->name('login_page');
+    Route::get('/register', [UserController::class, 'showRegisterPage'])->name('register_page');
+    Route::post('/register', [UserController::class, 'register'])->name('register');
+    Route::post('/login', [UserController::class, 'login'])->name('login');
 });
 
-Route::post('/logout', [UserController::class, 'logout'])->middleware(AuthMiddleware::class);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout')->middleware(AuthMiddleware::class);

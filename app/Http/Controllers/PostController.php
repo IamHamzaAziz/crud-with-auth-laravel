@@ -19,14 +19,10 @@ class PostController extends Controller
             ]);
         } catch (ValidationException $e) {
             // Return error message if validation fails
-            return redirect('/create-post')->withErrors([
+            return redirect()->name('post_page')->withErrors([
                 'validation' => 'Please fill in all required fields'
             ]);
         }
-
-        // Remove any HTML tags from title and body to prevent malicious code injection
-        $incomingFields['title'] = strip_tags($incomingFields['title']);
-        $incomingFields['body'] = strip_tags($incomingFields['body']);
 
         // Set the user_id to the currently authenticated user's ID
         $incomingFields['user_id'] = auth()->id();
@@ -34,7 +30,7 @@ class PostController extends Controller
         // Create a new post record in the database with the validated fields
         Post::create($incomingFields);
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function edit(Post $post)
@@ -51,7 +47,7 @@ class PostController extends Controller
     {
         // Check if the currently authenticated user is the owner of the post
         if (auth()->user()->id !== $post['user_id']) {
-            return redirect('/');
+            return redirect()->route('home');
         }
 
         try {
@@ -67,13 +63,9 @@ class PostController extends Controller
             ]);
         }
 
-        // Remove any HTML tags from title and body to prevent malicious code injection
-        $incomingFields['title'] = strip_tags($incomingFields['title']);
-        $incomingFields['body'] = strip_tags($incomingFields['body']);
-
         $post->update($incomingFields);
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
     public function delete(Post $post)
@@ -84,6 +76,6 @@ class PostController extends Controller
             $post->delete();
         }
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 }
