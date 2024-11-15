@@ -15,7 +15,7 @@ class AdminController extends Controller
 
     public function add_post()
     {
-        return view('admin.add_post');
+        return view('admin.posts.add_post');
     }
 
     public function create_post(Request $request)
@@ -38,13 +38,13 @@ class AdminController extends Controller
     public function view_posts()
     {
         $posts = AdminPost::all();
-        return view('admin.view_posts', compact('posts'));
+        return view('admin.posts.view_posts', compact('posts'));
     }
 
     public function edit_post($id)
     {
         $post = AdminPost::find($id);
-        return view('admin.edit_post', compact('post'));
+        return view('admin.posts.edit_post', compact('post'));
     }
 
     public function update_post(Request $request, $id)

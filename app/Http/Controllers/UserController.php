@@ -72,7 +72,7 @@ class UserController extends Controller
         if(auth()->attempt(['name' => $incomingFields['name'], 'password' => $incomingFields['password']])){
             // Regenerate the session to prevent session fixation attacks
             $request->session()->regenerate();
-            return redirect()->name('home');
+            return redirect()->route('home');
         }
 
         // Return error message if authentication fails
